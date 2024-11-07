@@ -1,0 +1,13 @@
+/.vs
+/obj
+/bin
+/Business/bin
+/Business/obj
+/Business.Test/bin
+/Business.Test/obj
+/Infrastructure/bin
+/Infrastructure/obj
+/Service/bin
+/Service/obj
+
+/AppData
