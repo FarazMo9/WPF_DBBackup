@@ -1,6 +1,9 @@
 /.vs
 /obj
 /bin
+/DBBackupApplication/bin
+/DBBackupApplication/obj
+/DBBackupApplication/Properties
 /Business/bin
 /Business/obj
 /Business.Test/bin
@@ -9,5 +12,4 @@
 /Infrastructure/obj
 /Service/bin
 /Service/obj
-
 /AppData

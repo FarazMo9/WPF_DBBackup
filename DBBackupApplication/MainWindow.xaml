@@ -1,0 +1,61 @@
+﻿<Window x:Class="DBBackupApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DBBackupApplication.UserControls" xmlns:service="clr-namespace:Service;assembly=Service"
+        mc:Ignorable="d"
+        Title="Database Backup Manager" Height="450" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <service:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="Backup Logs">
+                <local:BackupLogUserControl x:Name="BackupLogsUC"/>
+
+            </TabItem>
+            <TabItem Header="Database Setting">
+                <local:DatabaseInfoUserControl />
+            </TabItem>
+            <TabItem Header="Config">
+                <local:ConfigUserControl   x:Name="ConfigUC"/>
+            </TabItem>
+            <TabItem Header="Restore">
+                <local:BackupDecryptionUserControl />
+            </TabItem>
+        </TabControl>
+        <GroupBox Header="Status" Grid.Row="1" Padding="10">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Start" Style="{StaticResource ButtonStyle}" Command="{Binding StartTimerCommand}" IsEnabled="{Binding IntervalManager.IsStoped,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Stop" Style="{StaticResource ButtonStyle}" Command="{Binding StopTimerCommand}" IsEnabled="{Binding IntervalManager.IsStarted,UpdateSourceTrigger=PropertyChanged}"/>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Backup Uploading : "  Style="{StaticResource ProcessMessageTextBox}"/>
+                    <TextBlock Text="{Binding IsUploading}" Style="{StaticResource HorizontalTextBlockElement}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="FTP Available : " Style="{StaticResource ProcessMessageTextBox}" />
+                    <TextBlock Text="{Binding IsFTPConnecttionAvailable}" Style="{StaticResource HorizontalTextBlockElement}" />
+
+                </StackPanel>
+                <ProgressBar  Height="10" Margin="0,10,0,0" Value="{Binding Progress}" Visibility="{Binding IsUploading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            </StackPanel>
+           
+        </GroupBox>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Margin="5">
+            <TextBlock Style="{StaticResource HorizontalTextBlockElement}" Text="Copyright © 2024 Faraz Moshtael"  />
+            <TextBlock Text="Version : 1.0.0" Style="{StaticResource HorizontalTextBlockElement}" />
+
+        </StackPanel>
+    </Grid>
+</Window>

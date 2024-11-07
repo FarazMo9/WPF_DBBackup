@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="DBBackupApplication.UserControls.BackupDecryptionUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:service="clr-namespace:Service;assembly=Service"
+             xmlns:enum="clr-namespace:Business;assembly=Business"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <service:BackupDecryptionViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="DatabaseEnumData"
+             MethodName="GetValues" 
+             ObjectType="{x:Type enum:Database}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:Database" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" >
+            <TextBlock Text="Database Type : "  Style="{StaticResource HorizontalTextBlockElement}" IsEnabled="False" />
+            <ComboBox Width="120" ItemsSource="{Binding Source={StaticResource DatabaseEnumData}}" SelectedItem="{Binding DatabaseType}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <TextBlock Text="Source Encrypted Backup Path : " Style="{StaticResource HorizontalTextBlockElement}" />
+            <TextBox Text="{Binding SourcePath}" Width="300" Style="{StaticResource HorizontalTextBoxElement}" IsReadOnly="True"/>
+            <Button Content="Browse" Style="{StaticResource ButtonStyle}" Command="{Binding SourceBrowseCommand}"/>
+        </StackPanel>
+     
+        <Button Content="Restore" Style="{StaticResource ButtonStyle}" Grid.Row="2" Command="{Binding RestoreCommand}"/>
+
+    </Grid>
+</UserControl>
