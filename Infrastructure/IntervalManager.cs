@@ -1,4 +1,5 @@
-﻿using Business.DTO;
+﻿using Business;
+using Business.DTO;
 using Business.Entities;
 using Infrastructure.Cryption;
 using System;
@@ -29,66 +30,80 @@ namespace Infrastructure
 
         private async void IntervalProcess(object stateInfo)
         {
-
-            AutoResetEvent autoEvent = (AutoResetEvent)stateInfo;
-            var operationResultLogs = new List<DBBackupResult>();
-            var ftpManager = new FTPManager(appConfig.FTPUrl, appConfig.FTPUsername, appConfig.FTPPassword, onUploadProgressUpdated);
-            foreach (var database in databases)
+            try
             {
-                var backupOperation = DBBackupManager.BackupDatabase(database);
-                var allowDirectoryRemoval = false;
-                try
+                AutoResetEvent autoEvent = (AutoResetEvent)stateInfo;
+                var operationResultLogs = new List<DBBackupResult>();
+                var ftpManager = new FTPManager(appConfig.FTPUrl, appConfig.FTPUsername, appConfig.FTPPassword, onUploadProgressUpdated);
+                foreach (var database in databases)
                 {
-                    //First Step : DB backup file will be prepared on the backup directory
-                    if (backupOperation.Success)
+                    var backupOperation = DBBackupManager.BackupDatabase(database);
+                    var allowDirectoryRemoval = false;
+                    try
                     {
-                        //Second Step : The Backup file will be encrypted by AES and the encrypted file will be generated beside that.
-                        var cryptionResult = CryptionManager.EncryptFile(backupOperation.SourceBackupPath, backupOperation.EncryptedBackupPath);
-                        backupOperation.Success = cryptionResult.Success;
-                        backupOperation.MessageLog = cryptionResult.Message;
-
-
-                        if (cryptionResult.Success && appConfig.IsFTPAvailable)
+                        //First Step : DB backup file will be prepared on the backup directory
+                        if (backupOperation.Success)
                         {
+                            //Second Step : The Backup file will be encrypted by AES and the encrypted file will be generated beside that.
+                            var cryptionResult = CryptionManager.EncryptFile(backupOperation.SourceBackupPath, backupOperation.EncryptedBackupPath);
+                            backupOperation.Success &= cryptionResult.Success;
+                            backupOperation.MessageLog = cryptionResult.Message;
 
-                            //Third Step : If the FTP config is available, the encrypted file will be uploaded
-                            var isConnectionAvailable = await ftpManager.IsConnectionAvailable();
-                            backupOperation.Success = isConnectionAvailable.Success;
-                            backupOperation.MessageLog = isConnectionAvailable.Message;
-                            if (isConnectionAvailable.Success)
+
+                            if (cryptionResult.Success && appConfig.IsFTPAvailable)
                             {
-                                var uploadResult = await ftpManager.UploadBackupFile(backupOperation.EncryptedBackupPath, backupOperation.EncryptedBackupFileName);
-                                onUploadProgressUpdated?.Invoke(0);
-                                backupOperation.Success = uploadResult.Success;
-                                backupOperation.MessageLog = uploadResult.Message;
-                                allowDirectoryRemoval = true;
 
+                                //Third Step : If the FTP config is available, the encrypted file will be uploaded
+                                var isConnectionAvailable = await ftpManager.IsConnectionAvailable();
+                                backupOperation.Success &= isConnectionAvailable.Success;
+                                backupOperation.MessageLog = isConnectionAvailable.Message;
+                                if (isConnectionAvailable.Success)
+                                {
+                                    //While the FTP connection stablished, the upload process will be started
+                                    var uploadResult = await ftpManager.UploadBackupFile(backupOperation.EncryptedBackupPath, backupOperation.EncryptedBackupFileName);
+                                    onUploadProgressUpdated?.Invoke(0);
+                                    backupOperation.Success &= uploadResult.Success;
+                                    backupOperation.MessageLog = uploadResult.Message;
+                                    allowDirectoryRemoval = true;
+
+                                }
                             }
                         }
+
+
+                        operationResultLogs.Add(backupOperation);
+                        if (!backupOperation.Success)
+                            allowDirectoryRemoval = true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        allowDirectoryRemoval = true;
+                        backupOperation.Success = false;
+                        backupOperation.MessageLog = ex.Message;
+                    }
+                    finally
+                    {
+                        if (allowDirectoryRemoval)
+                        {
+                            //Final Step: Remove the local backup directory release the used storage
+                            var removeDirectoryResult = RemoveDirectory(backupOperation.BackupDirectory);
+                            backupOperation.Success &= removeDirectoryResult.Success;
+                            backupOperation.MessageLog=removeDirectoryResult.Message;
+                        }
+                         
+
                     }
 
-
-                    operationResultLogs.Add(backupOperation);
-                    if (!backupOperation.Success)
-                        allowDirectoryRemoval = true;
-
                 }
-                catch
-                {
-                    allowDirectoryRemoval = true;
-
-                }
-                finally
-                {
-                    if (allowDirectoryRemoval)
-                        //Final Step: Remove the local backup directory release the used storage
-                        RemoveDirectory(backupOperation.BackupDirectory);
-
-                }
+                onBackupProcessEnded?.Invoke(operationResultLogs);
+                autoEvent.Set(); // Reset for the next interval
 
             }
-            onBackupProcessEnded?.Invoke(operationResultLogs);
-            autoEvent.Set(); // Reset for the next interval
+            catch
+            {
+
+            }
 
 
         }
@@ -100,10 +115,20 @@ namespace Infrastructure
                 timer.Dispose();
         }
 
-        private void RemoveDirectory(string backupDirectory)
+        private OperationResult RemoveDirectory(string backupDirectory)
         {
-            if (Directory.Exists(backupDirectory))
-                Directory.Delete(backupDirectory, true);
+            try
+            {
+                if (Directory.Exists(backupDirectory))
+                    Directory.Delete(backupDirectory, true);
+
+                return OperationResult.Get();
+            }
+            catch (Exception ex)
+            {
+                return OperationResult.Error(message: ex.Message);
+            }
+
         }
 
 

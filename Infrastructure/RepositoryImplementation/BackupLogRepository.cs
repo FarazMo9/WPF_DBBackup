@@ -28,7 +28,7 @@ namespace Infrastructure.RepositoryImplementation
             await AddRange(logs.Select(item => new BackupLog
             {
                 DatabaseInfoID = item.Database.ID,
-                Date = DateTime.UtcNow,
+                Date = DateTime.Now,
                 IsSuccessful = item.Success,
                 Message = item.MessageLog
             }));
