@@ -32,14 +32,16 @@ namespace Infrastructure
 
         }
 
-        public async Task<OperationResult> CheckRemainingHostStorage(int backupSize, int hostStorageSpace)
+        public async Task<OperationResult> CheckRemainingHostStorage(string backupPath, long hostStorageSpace)
         {
             try
             {
+                var fileInfo = new FileInfo(backupPath);
+
                 var cancellationToken = new CancellationToken();
                 using var client = new AsyncFtpClient(FTPUrl, FTPUsername, FTPPassword); // or set Host & Credentials
                 var files = await client.GetListing();
-                var usedSpace = (files.Any() ? files.Sum(file => file.Size) : 0) + backupSize;
+                var usedSpace = (files.Any() ? files.Sum(file => file.Size) : 0) + fileInfo.Length;
                 if (usedSpace > hostStorageSpace)
                 {
                     var item = files.OrderBy(File => File.Created).FirstOrDefault();

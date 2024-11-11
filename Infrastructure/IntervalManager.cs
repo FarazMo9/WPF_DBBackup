@@ -59,12 +59,17 @@ namespace Infrastructure
                                 backupOperation.MessageLog = isConnectionAvailable.Message;
                                 if (isConnectionAvailable.Success)
                                 {
-                                    //While the FTP connection stablished, the upload process will be started
-                                    var uploadResult = await ftpManager.UploadBackupFile(backupOperation.EncryptedBackupPath, backupOperation.EncryptedBackupFileName);
-                                    onUploadProgressUpdated?.Invoke(0);
-                                    backupOperation.Success &= uploadResult.Success;
-                                    backupOperation.MessageLog = uploadResult.Message;
-                                    allowDirectoryRemoval = true;
+                                    var checkRemainingStorage = await ftpManager.CheckRemainingHostStorage(backupOperation.EncryptedBackupPath, appConfig.HostSize);
+                                    if (checkRemainingStorage.Success)
+                                    {
+                                        //While the FTP connection stablished, the upload process will be started
+                                        var uploadResult = await ftpManager.UploadBackupFile(backupOperation.EncryptedBackupPath, backupOperation.EncryptedBackupFileName);
+                                        onUploadProgressUpdated?.Invoke(0);
+                                        backupOperation.Success &= uploadResult.Success;
+                                        backupOperation.MessageLog = uploadResult.Message;
+                                        allowDirectoryRemoval = true;
+                                    }
+                                  
 
                                 }
                             }
