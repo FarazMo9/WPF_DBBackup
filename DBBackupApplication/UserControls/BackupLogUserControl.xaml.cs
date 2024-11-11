@@ -1,4 +1,4 @@
-﻿using Service;
+﻿using Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 #nullable disable
-namespace DBBackupApplication.UserControls
+namespace Presentation.UserControls
 {
     /// <summary>
     /// Interaction logic for BackupLogUserControl.xaml

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBBackupApplication", "DBBackupApplication\DBBackupApplication.csproj", "{7C1E9F83-6515-4F5B-AB7D-E773E8EFF705}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "DBBackupApplication\Presentation.csproj", "{7C1E9F83-6515-4F5B-AB7D-E773E8EFF705}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{FBF42457-0DFE-4AEE-9900-624A218F9C50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{5C41D774-22F6-4A69-9DE9-DA621FECB3C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{43E1788C-5BB5-40C8-A8D2-AA11073D7D06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Service\Application.csproj", "{43E1788C-5BB5-40C8-A8D2-AA11073D7D06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{38F2EE47-4644-4E6C-89E0-697ED1089CA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Test", "Business.Test\Business.Test.csproj", "{C2AC8876-1824-4980-9014-14824D12EB33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Test", "Business.Test\Business.Test.csproj", "{C2AC8876-1824-4980-9014-14824D12EB33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

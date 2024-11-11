@@ -10,7 +10,7 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 #nullable disable
-namespace Service
+namespace Application
 {
     public class Program
     {

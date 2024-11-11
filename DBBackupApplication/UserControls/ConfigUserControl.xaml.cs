@@ -1,6 +1,6 @@
 ﻿using Business.Entities;
 using Microsoft.Win32;
-using Service;
+using Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace DBBackupApplication.UserControls
+namespace Presentation.UserControls
 {
     /// <summary>
     /// Interaction logic for ConfigUserControl.xaml

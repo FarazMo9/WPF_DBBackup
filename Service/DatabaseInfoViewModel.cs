@@ -13,7 +13,7 @@ using Infrastructure.Cryption;
 using Infrastructure.RepositoryImplementation;
 using Business;
 #nullable disable
-namespace Service
+namespace Application
 {
     public class DatabaseInfoViewModel : BaseViewModel
     {

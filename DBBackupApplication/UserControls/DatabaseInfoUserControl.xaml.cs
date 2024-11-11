@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DBBackupApplication.UserControls
+namespace Presentation.UserControls
 {
     /// <summary>
     /// Interaction logic for DatabaseInfoUserControl.xaml

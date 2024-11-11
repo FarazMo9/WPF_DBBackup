@@ -1,15 +1,15 @@
 ﻿using Microsoft.Win32;
-using Service;
+using Application;
 using System.Configuration;
 using System.Data;
 using System.Windows;
 
-namespace DBBackupApplication
+namespace Presentation
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
         public Program ProgramConfig { get; set; }
         protected override void OnStartup(StartupEventArgs e)

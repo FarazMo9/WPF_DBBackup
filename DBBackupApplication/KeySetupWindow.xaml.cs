@@ -1,4 +1,4 @@
-﻿using Service;
+﻿using Application;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DBBackupApplication
+namespace Presentation
 {
     /// <summary>
     /// Interaction logic for KeySetupWindow.xaml

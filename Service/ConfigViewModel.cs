@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 #nullable disable
-namespace Service
+namespace Application
 {
     public class ConfigViewModel : BaseViewModel
     {

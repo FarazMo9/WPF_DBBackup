@@ -1,9 +1,9 @@
-﻿<Window x:Class="DBBackupApplication.MainWindow"
+﻿<Window x:Class="Presentation.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DBBackupApplication.UserControls" xmlns:service="clr-namespace:Service;assembly=Service"
+        xmlns:local="clr-namespace:Presentation.UserControls" xmlns:service="clr-namespace:Application;assembly=Application"
         mc:Ignorable="d"
         Title="Database Backup Manager" Height="450" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -54,7 +54,7 @@
         </GroupBox>
         <StackPanel Orientation="Vertical" Grid.Row="2" Margin="5">
             <TextBlock Style="{StaticResource HorizontalTextBlockElement}" Text="Copyright © 2024 Faraz Moshtael"  />
-            <TextBlock Text="Version : 1.0.0" Style="{StaticResource HorizontalTextBlockElement}" />
+            <TextBlock Text="Version : 1.1.0" Style="{StaticResource HorizontalTextBlockElement}" />
 
         </StackPanel>
     </Grid>

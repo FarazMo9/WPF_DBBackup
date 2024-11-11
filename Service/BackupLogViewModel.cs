@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 #nullable disable
-namespace Service
+namespace Application
 {
     public class BackupLogViewModel:BaseViewModel
     {

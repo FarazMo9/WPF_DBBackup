@@ -1,4 +1,4 @@
-﻿using Service;
+﻿using Application;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DBBackupApplication
+namespace Presentation
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
