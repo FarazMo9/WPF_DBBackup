@@ -19,19 +19,13 @@ namespace Infrastructure
 
         public AppDBContext()
         {
-  
-
-            var directoryPath = GeneralInfo.AppDataPath;
-            if (!Directory.Exists(GeneralInfo.AppDataPath))
-                Directory.CreateDirectory(directoryPath);
-            DBPath = Path.Join(directoryPath, "BackupAppDB.db");
-            this.Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         // The following configures EF to create a Sqlite database file in the
         // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={DBPath}");
+            => options.UseSqlite($"Data Source={GeneralInfo.DatabasePath}");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

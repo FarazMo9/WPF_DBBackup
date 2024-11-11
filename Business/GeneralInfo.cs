@@ -23,6 +23,7 @@ namespace Business
 
         public const string WindowsFileExplorerAppName = "explorer.exe";
         public static string AppDataPath => $"{Environment.CurrentDirectory}\\AppData";
+        public static string DatabasePath => $"{AppDataPath}\\BackupAppDB.db";
         public static string RestorePath => $"{AppDataPath}\\Restore";
 
         public static string BackupPath => $"{AppDataPath}\\Backup";
